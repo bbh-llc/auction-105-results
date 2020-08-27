@@ -1,0 +1,12 @@
+name: auction-105-results
+title: auction-105-results
+username:
+account: trakru
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2716635
+bundleId: 3564939
+url: https://trakru.shinyapps.io/auction-105-results/
+when: 1598557864.10357
+asMultiple: FALSE
+asStatic: FALSE
