@@ -5,6 +5,8 @@ library(tidyverse)
 library(sf)
 library(shiny)
 library(withr)
+library(RColorBrewer)
+library(shinycssloaders)
 
 USA <- st_read(dsn = './data/county data/cb_2018_us_county_500k.shp')
 
@@ -23,9 +25,16 @@ states_sf <- st_as_sf(USA)
 states_sf_5g <- left_join(states_sf, auction_data, by="GEOID")
 states_sf_5g <- st_transform(states_sf_5g, 4326)  # reproject to 4326
 
+# # Options for Spinner
+# options(spinner.color="#0275D8", spinner.color.background="#ffffff", spinner.size=2)
+
+
 #shiny app
 
 ui <- fluidPage(
+    
+    # shinycssloaders::withSpinner(mapOutput("map")),
+    
     # Application title
     titlePanel("5G Spectrum auction results"),
     
@@ -33,34 +42,20 @@ ui <- fluidPage(
         tags$script(src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.16/iframeResizer.contentWindow.min.js",
                     type="text/javascript")
     ),
-    
     # Header
     headerPanel(
-        title=tags$a(href='https://www.bbh-llc.com/',tags$img(src='bbh-logo-cropped.png', height = 75), target="_blank"),
+        title=tags$a(href='https://www.bbh-llc.com/',tags$img(src='bbh-logo-cropped.png', height = 50), target="_blank"),
         tags$head(tags$link(rel = "icon", type = "image/png", href = "bbh-logo-cropped.png"), windowTitle="5G auction results")
     ),
     
     
     #leaflet options
-    leafletOutput("map")
-    # height = "100vh"
+    leafletOutput("map", height = "70vh")
 )
 
 # bins_auction = list(states_sf_5g$bin_lengths)
 
 server <- function(input, output, session){
-    # # Loading modal to keep user out of trouble while map draws...
-    # showModal(modalDialog(title="MAP LOADING - PLEASE WAIT...","Please wait for map to load.",size="l",footer=NULL))
-    # 
-    # # Remove modal when app is ready
-    # observe({
-    #     req(output$map)
-    #     removeModal()
-    # })
-    # resources: https://stackoverflow.com/questions/5812493/how-to-add-leading-zeros
-    
-    
-    # bins_auction = c(1e+03,1.7e+03,3.4e+03,5.4e+03,8.5e+03,1.4e+04,2.1e+04,3.3e+04,5.7e+04,1.09e+05,5.21e+07)
     bins_auction = c(1e+03,3.4e+03,5.4e+03,8.5e+03,1.4e+04,2.1e+04,3.3e+04,5.7e+04,1.09e+05,5.21e+07)
     mypal <- colorBin("YlOrBr", domain = states_sf_5g$posted_price, bins = bins_auction )
     
