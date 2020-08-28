@@ -5,8 +5,8 @@ account: trakru
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2716635
-bundleId: 3564939
+bundleId: 3566544
 url: https://trakru.shinyapps.io/auction-105-results/
-when: 1598557864.10357
+when: 1598606773.16976
 asMultiple: FALSE
 asStatic: FALSE
